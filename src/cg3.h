@@ -100,7 +100,7 @@ void cg3_apertium_applicator_free(cg3_apertium_applicator* applicator);
 
 void cg3_apertium_run_grammar_on_text(cg3_apertium_applicator*, std_istream*, std_ostream*);
 void cg3_apertium_run_grammar_on_text_fns(cg3_apertium_applicator*, const char* input, const char* output);
-
+char* cg3_apertium_run_grammar_on_text_str(cg3_apertium_applicator*, const char* input, size_t* output_len);
 cg3_mwesplitapplicator* cg3_mwesplitapplicator_create();
 #define cg3_mwesplitapplicator_free cg3_applicator_free
 #define cg3_run_mwesplit_on_text cg3_run_grammar_on_text

@@ -255,6 +255,19 @@ void cg3_apertium_run_grammar_on_text_fns(cg3_apertium_applicator* applicator_, 
         applicator->runGrammarOnText(is, os);
 }
 
+char* cg3_apertium_run_grammar_on_text_str(cg3_apertium_applicator* applicator_, const char* input, size_t *output_len) {
+	ApertiumApplicator* applicator = static_cast<ApertiumApplicator*>(applicator_);
+	std::stringstream is(input);
+	std::stringstream os;
+	applicator->runGrammarOnText(is, os);
+	auto output_str = os.str();
+	*output_len = output_str.length();
+	char *output = new char[*output_len + 1];
+	output_str.copy(output, *output_len, 0);
+	output_str[*output_len] = '\0';
+	return output;
+}
+
 cg3_sentence* cg3_sentence_new(cg3_applicator* applicator_) {
 	GrammarApplicator* applicator = static_cast<GrammarApplicator*>(applicator_);
 	SingleWindow* current = applicator->gWindow->allocSingleWindow();
