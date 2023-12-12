@@ -22,6 +22,7 @@
 #include "TextualParser.hpp"
 #include "BinaryGrammar.hpp"
 #include "GrammarApplicator.hpp"
+#include "ApertiumApplicator.hpp"
 #include "MweSplitApplicator.hpp"
 #include "Window.hpp"
 #include "SingleWindow.hpp"
@@ -161,6 +162,19 @@ cg3_applicator* cg3_applicator_create(cg3_grammar* grammar_) {
 	return applicator;
 }
 
+cg3_apertium_applicator* cg3_apertium_applicator_create(cg3_grammar* grammar_) {
+	auto grammar = static_cast<Grammar*>(grammar_);
+	ApertiumApplicator* applicator = new ApertiumApplicator(*ux_stderr);
+	applicator->wordform_case = false;
+	applicator->print_word_forms = true;
+	applicator->print_only_first = true;
+	applicator->delimit_lexical_units = true;
+	applicator->surface_readings = false;
+	applicator->setGrammar(grammar);
+	applicator->index();
+	return applicator;
+}
+
 cg3_mwesplitapplicator* cg3_mwesplitapplicator_create() {
 	auto mwe = new MweSplitApplicator(*ux_stderr);
 	return static_cast<GrammarApplicator*>(mwe);
@@ -220,6 +234,25 @@ void cg3_run_grammar_on_text_fns(cg3_applicator* applicator_, const char* input,
 	std::ifstream is(input, std::ios::binary);
 	std::ofstream os(output, std::ios::binary);
 	applicator->runGrammarOnText(is, os);
+}
+
+void cg3_apertium_applicator_free(cg3_apertium_applicator* applicator_) {
+        ApertiumApplicator* applicator = static_cast<ApertiumApplicator*>(applicator_);
+        delete applicator;
+}
+
+void cg3_apertium_run_grammar_on_text(cg3_apertium_applicator* applicator_, std_istream* is_, std_ostream* os_) {
+        ApertiumApplicator* applicator = static_cast<ApertiumApplicator*>(applicator_);
+        std::istream* is = static_cast<std::istream*>(is_);
+        std::ostream* os = static_cast<std::ostream*>(os_);
+        applicator->runGrammarOnText(*is, *os);
+}
+
+void cg3_apertium_run_grammar_on_text_fns(cg3_apertium_applicator* applicator_, const char* input, const char* output) {
+        ApertiumApplicator* applicator = static_cast<ApertiumApplicator*>(applicator_);
+        std::ifstream is(input, std::ios::binary);
+        std::ofstream os(output, std::ios::binary);
+        applicator->runGrammarOnText(is, os);
 }
 
 cg3_sentence* cg3_sentence_new(cg3_applicator* applicator_) {

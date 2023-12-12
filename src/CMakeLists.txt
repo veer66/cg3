@@ -58,6 +58,7 @@ endmacro()
 
 set(LIBCG3_HEADERS
 	AST.hpp
+	ApertiumApplicator.hpp
 	BinaryGrammar.hpp
 	Cohort.hpp
 	CohortIterator.hpp
@@ -96,6 +97,7 @@ set(LIBCG3_HEADERS
 	version.hpp
 	)
 set(LIBCG3_SOURCES
+	ApertiumApplicator.cpp
 	BinaryGrammar.cpp
 	BinaryGrammar_read.cpp
 	BinaryGrammar_read_10043.cpp

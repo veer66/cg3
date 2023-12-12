@@ -35,6 +35,7 @@ extern "C" {
 
 typedef void cg3_grammar;
 typedef void cg3_applicator;
+typedef void cg3_apertium_applicator;
 typedef cg3_applicator cg3_mwesplitapplicator;
 typedef void cg3_sentence;
 typedef void cg3_cohort;
@@ -79,6 +80,7 @@ cg3_grammar* cg3_grammar_load_buffer(const char* buffer, size_t length);
 void cg3_grammar_free(cg3_grammar* grammar);
 
 cg3_applicator* cg3_applicator_create(cg3_grammar* grammar);
+cg3_apertium_applicator* cg3_apertium_applicator_create(cg3_grammar* grammar);
 // Pass in OR'ed values from cg3_flags; each call resets flags, so set all needed ones in a single call.
 void cg3_applicator_setflags(cg3_applicator* applicator, uint32_t flags);
 /*
@@ -93,6 +95,11 @@ void cg3_applicator_free(cg3_applicator* applicator);
 
 void cg3_run_grammar_on_text(cg3_applicator*, std_istream*, std_ostream*);
 void cg3_run_grammar_on_text_fns(cg3_applicator*, const char* input, const char* output);
+
+void cg3_apertium_applicator_free(cg3_apertium_applicator* applicator);
+
+void cg3_apertium_run_grammar_on_text(cg3_apertium_applicator*, std_istream*, std_ostream*);
+void cg3_apertium_run_grammar_on_text_fns(cg3_apertium_applicator*, const char* input, const char* output);
 
 cg3_mwesplitapplicator* cg3_mwesplitapplicator_create();
 #define cg3_mwesplitapplicator_free cg3_applicator_free
